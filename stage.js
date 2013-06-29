@@ -1,0 +1,18 @@
+var Stage = function()
+{
+  this.drawCanv = new Canv(640,320);
+  this.dispCanv = new Canv(640,320);
+  this.dispCanv.canvas.style.border = "1px solid black";
+  this.drawCanv.context.fillStyle = "#000000";
+  this.drawCanv.context.strokeStyle = "#000000";
+  this.drawCanv.context.font = "12px vg_font";
+
+  this.draw = function()
+  {
+    this.drawCanv.blitTo(this.dispCanv);
+    this.drawCanv.context.fillStyle = "#FFFFFF";
+    this.drawCanv.context.fillRect(0,0,this.drawCanv.canvas.width,this.drawCanv.canvas.height);
+  };
+
+  document.getElementById("stage_container").insertBefore(this.dispCanv.canvas, document.getElementById("shadow"));
+};
