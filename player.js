@@ -4,12 +4,33 @@ var Player = function(id, position, fight)
   this.x = position;
   this.fight = fight;
   
+  if(this.id == "1")
+  {
+    this.color        = "#FF0000";
+    this.fadedColor   = "#FF8888";
+    this.darkColor    = "#880000";
+  }
+  else if(this.id == "2")
+  {
+    this.color        = "#0000FF";
+    this.fadedColor   = "#8888FF";
+    this.darkColor    = "#000088";
+  }
+  
   this.opponent = null;
   this.health = 100;
+  this.blocking = false;
+  this.fighting = false;
   this.seed = "";
   this.progress = 0;
   
   var displayBox = new DisplayBox();
+  
+  this.damage = function(amount)
+  {
+    if(this.blocking) Math.floor(amount/=2);
+    this.health -= amount;
+  };
 
   this.input = function(key)
   {
@@ -73,12 +94,12 @@ var Player = function(id, position, fight)
     "h":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],//"hadouken!!!!!!!!!!"
     "i":[null],
     "j":[null,null,null,null],//"jump"
-    "k":[null,null,null,null],//"kick"
+    "k":[null,null,null,null,function(p){ if(p.x == p.opponent.x-1 || p.x == p.opponent.x+1) p.opponent.damage(10);}],//"kick"
     "l":[null,null,null,null,function(p){ p.x--; }],//"left"
     "m":[null],
     "n":[null],
     "o":[null],
-    "p":[null,null,null,null,null],//"punch"
+    "p":[null,null,null,null,null,function(p){ if(p.x == p.opponent.x-1 || p.x == p.opponent.x+1) p.opponent.damage(20);}],//"punch"
     "q":[null],
     "r":[null,null,null,null,null,function(p){ p.x++; }],//"right"
     "s":[null],
@@ -93,8 +114,7 @@ var Player = function(id, position, fight)
 
   this.draw = function(canv)
   {
-    canv.context.fillStyle = "#000000";
-    displayBox.draw(canv, this.x);
+    displayBox.draw(canv, this.x, this.color, this.fadedColor, this.darkColor);
   };
 };
 
@@ -110,23 +130,23 @@ var DisplayBox = function()
     this.nextString = next;
   };
   
-  this.draw = function(canv, pos)
+  this.draw = function(canv, pos, promptColor, enteredColor, validColor)
   {
     if(this.nextString == "?" && this.displayString != "")
       this.displayString = "";
       
     if(this.nextString == " ")
     {
-      canv.context.fillStyle = "#00FF00"
+      canv.context.fillStyle = validColor;
       for(var i = 0; i < this.displayString.length; i++)
         canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/10*pos-(25*(this.displayString.length-1)/2)+(25*i), 140);
     }
     else
     {
-      canv.context.fillStyle = "#000000"
+      canv.context.fillStyle = enteredColor;
       for(var i = 0; i < this.displayString.length; i++)
         canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/10*pos-(25*this.displayString.length/2)+(25*i), 140);
-      canv.context.fillStyle = "#FF0000";
+      canv.context.fillStyle = promptColor;
       canv.context.fillText(this.nextString,                canv.canvas.width/10*pos-(25*this.displayString.length/2)+(25*this.displayString.length), 140);
     }
   };

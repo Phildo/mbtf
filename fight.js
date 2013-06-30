@@ -24,6 +24,10 @@ var Fight = function()
     canv.context.fillRect(0,0,canv.canvas.width,canv.canvas.height);
     
     //Health bars
+    canv.context.fillStyle = p1.color;
+    canv.context.fillRect(40,40,(canv.canvas.width/2-40)*p1.health/100,30);
+    canv.context.fillStyle = p2.color;
+    canv.context.fillRect(canv.canvas.width/2+((canv.canvas.width/2-40)-((canv.canvas.width/2-40)*p2.health/100)),40,(canv.canvas.width/2-40)*p2.health/100,30);
     canv.context.strokeStyle = "#000000";
     canv.context.strokeRect(40,40,canv.canvas.width/2-40,30);
     canv.context.strokeRect(canv.canvas.width/2,40,canv.canvas.width/2-40,30);
