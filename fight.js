@@ -25,8 +25,8 @@ var Fight = function()
     
     //Health bars
     canv.context.strokeStyle = "#000000";
-    canv.context.strokeRect(40-0.5,40-0.5,canv.canvas.width/2-40,30);
-    canv.context.strokeRect(canv.canvas.width/2+0.5,40-0.5,canv.canvas.width/2-40,30);
+    canv.context.strokeRect(40,40,canv.canvas.width/2-40,30);
+    canv.context.strokeRect(canv.canvas.width/2,40,canv.canvas.width/2-40,30);
     
     //Circle
     canv.context.fillStyle = "#FFFFFF";
@@ -39,8 +39,8 @@ var Fight = function()
     
     //Floor
     canv.context.beginPath();
-    canv.context.moveTo(0,canv.canvas.height-30+0.5);
-    canv.context.lineTo(canv.canvas.width,canv.canvas.height-30+0.5);
+    canv.context.moveTo(0,canv.canvas.height-30);
+    canv.context.lineTo(canv.canvas.width,canv.canvas.height-30);
     canv.context.stroke();
     
     //Draw players

@@ -25,9 +25,9 @@ var LoadingScene = function(game, canv)
     oldw = neww;
     neww = progress*(canv.canvas.width-(2*pad));
     canv.context.fillStyle = "#000000";
-    //canv.context.fillRect(pad+oldw-0.5,canv.canvas.height/2-0.5,tickw,1); //dot
-    canv.context.fillRect(pad-0.5,canv.canvas.height/2+0.5,oldw-0.5+tickw,1); //line
-    canv.context.strokeRect(pad-0.5,(canv.canvas.height/2)-0.5,canv.canvas.width-(2*pad)+2,2);
+    //canv.context.fillRect(pad+oldw,canv.canvas.height/2,tickw,1); //dot
+    canv.context.fillRect(pad,canv.canvas.height/2,oldw,1); //line
+    canv.context.strokeRect(pad,(canv.canvas.height/2),canv.canvas.width-(2*pad)+2,2);
     if(progress >= 1.0) game.nextScene();
     return true; //should draw
   };

@@ -115,9 +115,6 @@ var DisplayBox = function()
     if(this.nextString == "?" && this.displayString != "")
       this.displayString = "";
       
-    canv.context.font = "20pt vg_font";
-    canv.context.textAlign = "center";
-      
     if(this.nextString == " ")
     {
       canv.context.fillStyle = "#00FF00"

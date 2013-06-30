@@ -5,7 +5,9 @@ var Stage = function()
   this.dispCanv.canvas.style.border = "1px solid black";
   this.drawCanv.context.fillStyle = "#000000";
   this.drawCanv.context.strokeStyle = "#000000";
-  this.drawCanv.context.font = "12px vg_font";
+  this.drawCanv.context.lineWidth = 2;
+  this.drawCanv.context.font = "20pt vg_font";
+  this.drawCanv.context.textAlign = "center";
 
   this.draw = function()
   {
