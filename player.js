@@ -1,51 +1,53 @@
-var Player = function(controller, position)
+var Player = function(controller, position, fight)
 {
+  this.fight = fight;
   this.health = 100;
   this.x = position;
+  this.seed = "";
+  this.progress = 0;
   this.opponent = null;
   controller.beginControlling(this);
+  
+  var displayBox = new DisplayBox();
 
   this.input = function(key)
   {
-    if(key == inputs[inputSeed].charAt(inputProgress))
-      inputProgress++;
+    if(!inputs[key] && inputs[key] != "") return;
+    if(key == inputs[this.seed].charAt(this.progress))
+      this.progress++;
     else
     {
-      inputSeed = key;
-      inputProgress = 0;
+      this.seed = key;
+      this.progress = 0;
     }
-    //commit action
-
-    if(inputs[inputSeed].length == inputProgress)
-    {
-      inputSeed = "";
-      inputProgress = 0;
-    }
+    actions[this.seed][this.progress];//(this);
+    displayBox.display(this.seed+inputs[this.seed].substring(0,this.progress),inputs[this.seed].substring(this.progress,this.progress+1));
+    //console.log("key:"+key+" seed:"+this.seed+" progress:"+this.progress+" next:"+inputs[this.seed].charAt(this.progress));
   };
 
-  var inputSeed = "";
-  var inputProgress = 0;
   var inputs = 
   {
     "":"",
+    " ":"",
+    "!":"",
     "a":"",
-    "b":"block",
-    "c":"crouch",
-    "d":"down",
+    "b":"lock ",
+    "c":"rouch ",
+    "d":"own ",
     "e":"",
-    "f":"fight",
+    "f":"ight ",
     "g":"",
-    "h":"hadouken!!!!!!!!!!",
+    "h":"adouken!!!!!!!!!!",
     "i":"",
-    "j":"jump",
-    "k":"kick",
-    "l":"left",
+    "j":"ump ",
+    "k":"ick ",
+    "l":"eft ",
     "m":"",
     "n":"",
     "o":"",
-    "p":"punch",
+    "p":"unch ",
     "q":"",
-    "r":"right",
+    "r":"ight ",
     "s":"",
     "t":"",
     "u":"",
@@ -54,5 +56,48 @@ var Player = function(controller, position)
     "x":"",
     "y":"",
     "z":""
+  };
+  
+  var actions = 
+  {
+    "":[function(p){}],
+    " ":[function(p){}],
+    "!":[function(p){}],
+    "a":[function(p){}],
+    "b":[function(p){},function(p){},function(p){},function(p){},function(p){}],
+    "c":[function(p){},function(p){},function(p){},function(p){},function(p){},function(p){}],//"crouch"
+    "d":[function(p){},function(p){},function(p){},function(p){}],//"down"
+    "e":[function(p){}],
+    "f":[function(p){},function(p){},function(p){},function(p){},function(p){}],//"fight"
+    "g":[function(p){}],
+    "h":[function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){}],//"hadouken!!!!!!!!!!"
+    "i":[function(p){}],
+    "j":[function(p){},function(p){},function(p){},function(p){}],//"jump"
+    "k":[function(p){},function(p){},function(p){},function(p){}],//"kick"
+    "l":[function(p){},function(p){},function(p){},function(p){}],//"left"
+    "m":[function(p){}],
+    "n":[function(p){}],
+    "o":[function(p){}],
+    "p":[function(p){},function(p){},function(p){},function(p){},function(p){}],//"punch"
+    "q":[function(p){}],
+    "r":[function(p){},function(p){},function(p){},function(p){},function(p){}],//"right"
+    "s":[function(p){}],
+    "t":[function(p){}],
+    "u":[function(p){}],
+    "v":[function(p){}],
+    "w":[function(p){}],
+    "x":[function(p){}],
+    "y":[function(p){}],
+    "z":[function(p){}]
+  };
+};
+
+var DisplayBox = function()
+{
+  this.display = function(str,next)
+  {
+    if(str == "") str = "?";
+    if(next == "") next = "?";
+    console.log(str+"("+next+")");
   };
 };

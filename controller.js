@@ -1,8 +1,8 @@
 var Controller = function()
 {
-  var person = null;
-  this.beginControlling = function(dude)
+  this.person = null;
+  this.beginControlling = function(person)
   {
-    person = dude;
+    this.person = person;
   };
 };
