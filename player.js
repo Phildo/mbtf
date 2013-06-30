@@ -1,12 +1,13 @@
-var Player = function(controller, position, fight)
+var Player = function(id, position, fight)
 {
-  this.fight = fight;
-  this.health = 100;
+  this.id = id;
   this.x = position;
+  this.fight = fight;
+  
+  this.opponent = null;
+  this.health = 100;
   this.seed = "";
   this.progress = 0;
-  this.opponent = null;
-  controller.beginControlling(this);
   
   var displayBox = new DisplayBox();
 
@@ -94,10 +95,14 @@ var Player = function(controller, position, fight)
 
 var DisplayBox = function()
 {
+  this.displayString = "";
+  this.nextString = "?";
   this.display = function(str,next)
   {
-    if(str == "") str = "?";
+    if(str == " ") str = "";
     if(next == "") next = "?";
+    this.displayString = str;
+    this.nextString = next;
     console.log(str+"("+next+")");
   };
 };

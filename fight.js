@@ -1,12 +1,18 @@
 var Fight = function()
 {
-  this.states = [];
-  this.events = [];
-  this.p1 = new Player(new Controller(), 2, this);
-  this.p2 = new Player(new KeyController(), 8, this);
+  var self = this;
+  this.fstates = [];
+  this.fevents = [];
+  var p1 = new Player("1", 2, this);
+  var p2 = new Player("2", 8, this);
+  p1.opponent = p2;
+  p2.opponent = p1;
+  
+  p1Controller = new KeyController(this, p1);
+  p2Controller = new Controller(this, p2);
 
   var futureEvents;
-  this.eventReceived = function(fevent)
+  this.handleEvent = function(fevent)
   {
     futureEvents = rewindTo(fevent.timestamp);
     applyEvent(fevent);
@@ -17,10 +23,10 @@ var Fight = function()
   var rewindTo = function(timestamp)
   {
     undoneEvents = [];
-    while(this.events[events.length-1].timestamp > timestamp)
+    while(self.fevents[self.fevents.length-1].timestamp > timestamp)
     {
-      undoneEvents.push(this.events.pop());
-      undoEvent(undoneEvents[undoneEvents.length-1]);
+      undoneEvents.push(self.fevents.pop());
+      revertToState(self.fstates.pop());
     }
     return undoneEvents;
   };
@@ -33,21 +39,31 @@ var Fight = function()
 
   var applyEvent = function(fevent)
   {
-
+    self.fstates.push(new FightState(p1, p2));
+    self.fevents.push(fevent);
+    if(fevent.player == p1.id) p1.input(fevent.input);
+    if(fevent.player == p2.id) p2.input(fevent.input);
   };
 
-  var undoEvent = function(fevent)
+  var revertToState = function(fstate)
   {
-
+    p1.x        = fstate.p1x;
+    p1.seed     = fstate.p1s;
+    p1.progress = fstate.p1p;
+    p2.x        = fstate.p2x;
+    p2.seed     = fstate.p2s;
+    p2.progress = fstate.p2p;
   };
+  
+  applyEvent(new FightEvent(p1.id, new Date().getTime(), ""));
+  applyEvent(new FightEvent(p2.id, new Date().getTime(), ""));
 };
 
-var FightEvent = function(timestamp, player, seed, progress)
+var FightEvent = function(player, timestamp, input)
 {
-  this.timestamp = timestamp;
   this.player = player;
-  this.seed = seed;
-  this.progress = progress;
+  this.timestamp = timestamp;
+  this.input = input;
 };
 
 var FightState = function(p1, p2)
