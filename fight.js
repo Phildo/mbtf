@@ -11,8 +11,39 @@ var Fight = function()
   p1Controller = new KeyController(this, p1);
   p2Controller = new Controller(this, p2);
   
-  this.draw = function(canv) //I hate that this is tainting the model, but whatevs
+  this.drawIfShould = function(canv)
   {
+    draw(canv);
+    return true;
+  };
+  
+  var draw = function(canv) //I hate that this is tainting the model, but whatevs
+  {
+    //Clear
+    canv.context.fillStyle = "#FFFFFF";
+    canv.context.fillRect(0,0,canv.canvas.width,canv.canvas.height);
+    
+    //Health bars
+    canv.context.strokeStyle = "#000000";
+    canv.context.strokeRect(40-0.5,40-0.5,canv.canvas.width/2-40,30);
+    canv.context.strokeRect(canv.canvas.width/2+0.5,40-0.5,canv.canvas.width/2-40,30);
+    
+    //Circle
+    canv.context.fillStyle = "#FFFFFF";
+    canv.context.strokeStyle = "#000000";
+    canv.context.beginPath();
+    canv.context.arc(canv.canvas.width/2, 55, 40, 0, Math.PI*2);
+    canv.context.closePath();
+    canv.context.fill();
+    canv.context.stroke();
+    
+    //Floor
+    canv.context.beginPath();
+    canv.context.moveTo(0,canv.canvas.height-30+0.5);
+    canv.context.lineTo(canv.canvas.width,canv.canvas.height-30+0.5);
+    canv.context.stroke();
+    
+    //Draw players
     p1.draw(canv);
     p2.draw(canv);
   };

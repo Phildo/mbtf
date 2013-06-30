@@ -8,15 +8,10 @@ var GamePlayScene = function(game, canv)
 
   this.tick = function()
   {
-    //not actually used
-    draw();
+    return fight.drawIfShould(canv);
   };
 
   this.cleanup = function()
-  {
-  };
-
-  var draw = function()
   {
   };
 };

@@ -21,9 +21,8 @@ var Player = function(id, position, fight)
       this.seed = key;
       this.progress = 0;
     }
-    actions[this.seed][this.progress];//(this);
+    if(actions[this.seed][this.progress]) actions[this.seed][this.progress](this);
     displayBox.display(this.seed+inputs[this.seed].substring(0,this.progress),inputs[this.seed].substring(this.progress,this.progress+1));
-    //console.log("key:"+key+" seed:"+this.seed+" progress:"+this.progress+" next:"+inputs[this.seed].charAt(this.progress));
   };
 
   var inputs = 
@@ -34,9 +33,9 @@ var Player = function(id, position, fight)
     "a":"",
     "b":"lock ",
     "c":"rouch ",
-    "d":"own ",
+    "d":"ance ",
     "e":"",
-    "f":"ight ",
+    "f":"ight! ",
     "g":"",
     "h":"adouken!!!!!!!!!!",
     "i":"",
@@ -61,48 +60,77 @@ var Player = function(id, position, fight)
   
   var actions = 
   {
-    "":[function(p){}],
-    " ":[function(p){}],
-    "!":[function(p){}],
-    "a":[function(p){}],
-    "b":[function(p){},function(p){},function(p){},function(p){},function(p){}],
-    "c":[function(p){},function(p){},function(p){},function(p){},function(p){},function(p){}],//"crouch"
-    "d":[function(p){},function(p){},function(p){},function(p){}],//"down"
-    "e":[function(p){}],
-    "f":[function(p){},function(p){},function(p){},function(p){},function(p){}],//"fight"
-    "g":[function(p){}],
-    "h":[function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){},function(p){}],//"hadouken!!!!!!!!!!"
-    "i":[function(p){}],
-    "j":[function(p){},function(p){},function(p){},function(p){}],//"jump"
-    "k":[function(p){},function(p){},function(p){},function(p){}],//"kick"
-    "l":[function(p){},function(p){},function(p){},function(p){}],//"left"
-    "m":[function(p){}],
-    "n":[function(p){}],
-    "o":[function(p){}],
-    "p":[function(p){},function(p){},function(p){},function(p){},function(p){}],//"punch"
-    "q":[function(p){}],
-    "r":[function(p){},function(p){},function(p){},function(p){},function(p){}],//"right"
-    "s":[function(p){}],
-    "t":[function(p){}],
-    "u":[function(p){}],
-    "v":[function(p){}],
-    "w":[function(p){}],
-    "x":[function(p){}],
-    "y":[function(p){}],
-    "z":[function(p){}]
+    "":[null],
+    " ":[null],
+    "!":[null],
+    "a":[null],
+    "b":[null,null,null,null,null],
+    "c":[null,null,null,null,null,null],//"crouch"
+    "d":[null,null,null,null],//"dance"
+    "e":[null],
+    "f":[null,null,null,null,null],//"fight"
+    "g":[null],
+    "h":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],//"hadouken!!!!!!!!!!"
+    "i":[null],
+    "j":[null,null,null,null],//"jump"
+    "k":[null,null,null,null],//"kick"
+    "l":[null,null,null,null,function(p){ p.x--; }],//"left"
+    "m":[null],
+    "n":[null],
+    "o":[null],
+    "p":[null,null,null,null,null],//"punch"
+    "q":[null],
+    "r":[null,null,null,null,null,function(p){ p.x++; }],//"right"
+    "s":[null],
+    "t":[null],
+    "u":[null],
+    "v":[null],
+    "w":[null],
+    "x":[null],
+    "y":[null],
+    "z":[null]
+  };
+
+  this.draw = function(canv)
+  {
+    canv.context.fillStyle = "#000000";
+    displayBox.draw(canv, this.x);
   };
 };
 
 var DisplayBox = function()
 {
   this.displayString = "";
-  this.nextString = "?";
+  this.nextString = "f";
   this.display = function(str,next)
   {
     if(str == " ") str = "";
     if(next == "") next = "?";
     this.displayString = str;
     this.nextString = next;
-    console.log(str+"("+next+")");
+  };
+  
+  this.draw = function(canv, pos)
+  {
+    if(this.nextString == "?" && this.displayString != "")
+      this.displayString = "";
+      
+    canv.context.font = "20pt vg_font";
+    canv.context.textAlign = "center";
+      
+    if(this.nextString == " ")
+    {
+      canv.context.fillStyle = "#00FF00"
+      for(var i = 0; i < this.displayString.length; i++)
+        canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/10*pos-(25*(this.displayString.length-1)/2)+(25*i), 140);
+    }
+    else
+    {
+      canv.context.fillStyle = "#000000"
+      for(var i = 0; i < this.displayString.length; i++)
+        canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/10*pos-(25*this.displayString.length/2)+(25*i), 140);
+      canv.context.fillStyle = "#FF0000";
+      canv.context.fillText(this.nextString,                canv.canvas.width/10*pos-(25*this.displayString.length/2)+(25*this.displayString.length), 140);
+    }
   };
 };
