@@ -13,8 +13,7 @@ var Game = function()
   var tick = function()
   {
     requestAnimFrame(tick,stage.dispCanv.canvas);
-    scenes[currentScene].tick();
-    stage.draw();
+    if(scenes[currentScene].tick()) stage.draw();
   };
 
   this.nextScene = function()

@@ -9,9 +9,9 @@ var Stage = function()
 
   this.draw = function()
   {
+    this.dispCanv.context.fillStyle = "#FFFFFF";
+    this.dispCanv.context.fillRect(0,0,this.dispCanv.canvas.width,this.dispCanv.canvas.height);
     this.drawCanv.blitTo(this.dispCanv);
-    this.drawCanv.context.fillStyle = "#FFFFFF";
-    this.drawCanv.context.fillRect(0,0,this.drawCanv.canvas.width,this.drawCanv.canvas.height);
   };
 
   document.getElementById("stage_container").insertBefore(this.dispCanv.canvas, document.getElementById("shadow"));

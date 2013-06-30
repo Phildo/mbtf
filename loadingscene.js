@@ -21,7 +21,7 @@ var LoadingScene = function(game, canv)
 
   this.tick = function()
   {
-    progress += 0.005;
+    progress += 0.05;
     oldw = neww;
     neww = progress*(canv.canvas.width-(2*pad));
     canv.context.fillStyle = "#000000";
@@ -29,10 +29,13 @@ var LoadingScene = function(game, canv)
     canv.context.fillRect(pad-0.5,canv.canvas.height/2+0.5,oldw-0.5+tickw,1); //line
     canv.context.strokeRect(pad-0.5,(canv.canvas.height/2)-0.5,canv.canvas.width-(2*pad)+2,2);
     if(progress >= 1.0) game.nextScene();
+    return true; //should draw
   };
 
   this.cleanup = function()
   {
     progress = 0;
+    canv.context.fillStyle = "#FFFFFF";
+    canv.context.fillRect(0,0,canv.canvas.width,canv.canvas.height);
   };
 };

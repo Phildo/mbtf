@@ -10,6 +10,12 @@ var Fight = function()
   
   p1Controller = new KeyController(this, p1);
   p2Controller = new Controller(this, p2);
+  
+  this.draw = function(canv) //I hate that this is tainting the model, but whatevs
+  {
+    p1.draw(canv);
+    p2.draw(canv);
+  };
 
   var futureEvents;
   this.handleEvent = function(fevent)
