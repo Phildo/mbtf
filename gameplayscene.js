@@ -1,8 +1,10 @@
 var GamePlayScene = function(game, canv)
 {
   var fight;
+  var userq;
   this.ready = function()
   {
+    userq = new UserQ();
     fight = new Fight();
   };
 
