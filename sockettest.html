@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Testing Socket.IO becuase there's NO DOCUMENTATION</title>
+<script src="http://brokenglider.com:9876/socket.io/socket.io.js"></script><!-- fetches file via node js -->
+<script type='text/javascript'>
+
+var s;
+function doit()
+{
+  s = io.connect('http://brokenglider.com:9876');
+  s.on('emittedToMe',emittedToMe);
+  s.on('broadcastEmittedFromMe',broadcastEmittedFromMe);
+  s.on('emittedFromSockets',emittedFromSockets);
+};
+
+function logToServer()
+{
+  s.emit('logToServer','logToServerData');
+};
+function emitToMe()
+{
+  s.emit('emitToMe','emitToMeData');
+};
+function broadcastEmitFromMe()
+{
+  s.emit('broadcastEmitFromMe','broadcastEmitFromMeData');
+};
+function emitFromSockets()
+{
+  s.emit('emitFromSockets','emitFromSocketsData');
+};
+
+function emittedToMe(data)
+{
+  console.log(data);
+};
+function broadcastEmittedFromMe(data)
+{
+  console.log(data);
+};
+function emittedFromSockets(data)
+{
+  console.log(data);
+};
+
+window.addEventListener('load',doit,false);
+</script>
+</head>
+<body>
+<div onclick='logToServer()'>logToServer</div>
+<div onclick='emitToMe()'>emitToMe</div>
+<div onclick='broadcastEmitFromMe()'>broadcastEmitFromMe</div>
+<div onclick='emitFromSockets()'>emitFromSockets</div>
+<div id='debug'></div>
+</body>
+</html>

@@ -9,29 +9,31 @@ var UserQ = function(s)
   };
   var registrationSuccessful = function(data)
   {
+    console.log('rgistrationSuccess!');
     ME = new User(data.id, data.name);
     view.removeChild(regSelector);
     s.emit('requestQueue');
   };
 
-  this.clear = function()
+  var clear = function()
   {
     cells = [];
     for(var i = 0; i < cells.length; i++)
       view.removeChild(cells[i]);
   };
 
-  this.setQueue = function(queue)
+  var setQueue = function(queue)
   {
-    this.clear();
+    console.log('setQueue!');
+    clear();
     for(var i = 0; i < queue.length; i++)
-      this.enqueue(new User(queue[i].id, queue[i].name));
+      enqueue(new User(queue[i].id, queue[i].name));
   };
 
-  this.enqueue = function(user)
+  var enqueue = function(user)
   {
     cells.push(createCell(user));
-    view.appendChild(cells[cells.length-1);
+    view.appendChild(cells[cells.length-1]);
   };
 
   this.remove = function(id)
@@ -60,7 +62,7 @@ var UserQ = function(s)
   var cells = [];
   s.on('nameAccepted', registrationSuccessful);
   s.on('newUser',      registrationSuccessful);
-  s.on('queueSync',    queueSync);
+  s.on('queueSync',    setQueue);
   
   document.getElementById('queue_container').appendChild(view);
 };

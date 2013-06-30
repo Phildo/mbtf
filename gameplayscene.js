@@ -5,7 +5,7 @@ var GamePlayScene = function(game, canv)
   var s;
   this.ready = function()
   {
-    s = io.connect('http://phildogames.com:41967'); //lol '41967' == 'FIGHT'... kinda...
+    s = io.connect('http://brokenglider.com:41967'); //lol '41967' == 'FIGHT'... kinda...
     userq = new UserQ(s);
     fight = new Fight();
   };
