@@ -1,5 +1,6 @@
-var User = function(id, display)
+var User = function(id, name)
 {
   this.id = id;
-  this.display = display;
+  this.name = name;
+  this.display = name;
 };

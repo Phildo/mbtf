@@ -1,4 +1,4 @@
-var Fight = function()
+var Fight = function(user1, user2)
 {
   var self = this;
   this.fstates = [];
@@ -31,6 +31,14 @@ var Fight = function()
     canv.context.strokeStyle = "#000000";
     canv.context.strokeRect(40,40,canv.canvas.width/2-40,30);
     canv.context.strokeRect(canv.canvas.width/2,40,canv.canvas.width/2-40,30);
+
+    //Names
+    canv.context.fillStyle = "#000000";
+    canv.context.textAlign = "left";
+    canv.context.fillText(user1.name, 40, 100);
+    canv.context.textAlign = "right";
+    canv.context.fillText(user2.name, canv.canvas.width-40, 100);
+    canv.context.textAlign = "center";
     
     //Circle
     canv.context.fillStyle = "#FFFFFF";

@@ -39,7 +39,7 @@ var UserQ = function(s)
     var c = document.createElement('div');
     c.data = data;
     if(c.data.id == ME.id)
-      c.innerHTML = "YOU -> "+data.display;
+      c.innerHTML = data.display+" <-YOU";
     else
       c.innerHTML = data.display;
     return c;
@@ -58,7 +58,7 @@ var UserQ = function(s)
   view.appendChild(regSelector);
   var cells = [];
   s.on('nameAccepted', registrationSuccessful);
-  s.on('newUser',      function(d) { s.emit('requestQueue') });
+  s.on('newUser',      function(d) { s.emit('requestQueue'); });
   s.on('queueSync',    setQueue);
   
   document.getElementById('queue_container').appendChild(view);

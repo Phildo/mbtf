@@ -7,7 +7,7 @@ var GamePlayScene = function(game, canv)
   {
     s = io.connect('http://brokenglider.com:41967'); //lol '41967' == 'FIGHT'... kinda...
     userq = new UserQ(s);
-    fight = new Fight();
+    fight = new Fight(new User(-1,"waiting..."),new User(-1,"...waiting"));
   };
 
   this.tick = function()
