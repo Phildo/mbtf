@@ -12,6 +12,11 @@ var KeyController = function(fight, player)
   };
 
   document.addEventListener('keypress', keyPress, false);
+
+  c.end = function()
+  {
+    document.removeEventListener('keypress', keyPress);
+  };
   
   return c;
 };

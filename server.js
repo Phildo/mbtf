@@ -25,7 +25,7 @@ var connection = function(s)
 
   var disconnect = function(data) 
   { 
-    for(var i = 0; i < userStubs.length; i++)
+    for(var i = 0; s.mbtfObject && i < userStubs.length; i++)
     {
       if(userStubs[i].id == s.mbtfObject.id)
       {

@@ -1,15 +1,19 @@
-var Fight = function(user1, user2)
+var Fight = function(delegate, user1, user2, me)
 {
   var self = this;
   this.fstates = [];
   this.fevents = [];
-  var p1 = new Player("1", 2, this);
-  var p2 = new Player("2", 8, this);
-  p1.opponent = p2;
-  p2.opponent = p1;
+  this.p1 = new Player(user1, "1", 1, this);
+  this.p2 = new Player(user2, "2", 5, this);
+  this.p1.opponent = this.p2;
+  this.p2.opponent = this.p1;
   
-  p1Controller = new KeyController(this, p1);
-  p2Controller = new Controller(this, p2);
+  var p1Controller;
+  var p2Controller;
+  if(me.id == user1.id) p1Controller = new KeyController(this, this.p1);
+  else                  p1Controller = new Controller(this, this.p1);
+  if(me.id == user2.id) p2Controller = new KeyController(this, this.p2);
+  else                  p2Controller = new Controller(this, this.p2);
   
   this.drawIfShould = function(canv)
   {
@@ -24,10 +28,10 @@ var Fight = function(user1, user2)
     canv.context.fillRect(0,0,canv.canvas.width,canv.canvas.height);
     
     //Health bars
-    canv.context.fillStyle = p1.color;
-    canv.context.fillRect(40,40,(canv.canvas.width/2-40)*p1.health/100,30);
-    canv.context.fillStyle = p2.color;
-    canv.context.fillRect(canv.canvas.width/2+((canv.canvas.width/2-40)-((canv.canvas.width/2-40)*p2.health/100)),40,(canv.canvas.width/2-40)*p2.health/100,30);
+    canv.context.fillStyle = self.p1.color;
+    canv.context.fillRect(40,40,(canv.canvas.width/2-40)*self.p1.health/100,30);
+    canv.context.fillStyle = self.p2.color;
+    canv.context.fillRect(canv.canvas.width/2+((canv.canvas.width/2-40)-((canv.canvas.width/2-40)*self.p2.health/100)),40,(canv.canvas.width/2-40)*self.p2.health/100,30);
     canv.context.strokeStyle = "#000000";
     canv.context.strokeRect(40,40,canv.canvas.width/2-40,30);
     canv.context.strokeRect(canv.canvas.width/2,40,canv.canvas.width/2-40,30);
@@ -56,8 +60,8 @@ var Fight = function(user1, user2)
     canv.context.stroke();
     
     //Draw players
-    p1.draw(canv);
-    p2.draw(canv);
+    self.p1.draw(canv);
+    self.p2.draw(canv);
   };
 
   var futureEvents;
@@ -88,24 +92,30 @@ var Fight = function(user1, user2)
 
   var applyEvent = function(fevent)
   {
-    self.fstates.push(new FightState(p1, p2));
+    self.fstates.push(new FightState(self.p1, self.p2));
     self.fevents.push(fevent);
-    if(fevent.player == p1.id) p1.input(fevent.input);
-    if(fevent.player == p2.id) p2.input(fevent.input);
+    if(fevent.player == self.p1.id) self.p1.input(fevent.input);
+    if(fevent.player == self.p2.id) self.p2.input(fevent.input);
   };
 
   var revertToState = function(fstate)
   {
-    p1.x        = fstate.p1x;
-    p1.seed     = fstate.p1s;
-    p1.progress = fstate.p1p;
-    p2.x        = fstate.p2x;
-    p2.seed     = fstate.p2s;
-    p2.progress = fstate.p2p;
+    self.p1.x        = fstate.p1x;
+    self.p1.seed     = fstate.p1s;
+    self.p1.progress = fstate.p1p;
+    self.p2.x        = fstate.p2x;
+    self.p2.seed     = fstate.p2s;
+    self.p2.progress = fstate.p2p;
   };
   
-  applyEvent(new FightEvent(p1.id, new Date().getTime(), ""));
-  applyEvent(new FightEvent(p2.id, new Date().getTime(), ""));
+  applyEvent(new FightEvent(this.p1.id, new Date().getTime(), ""));
+  applyEvent(new FightEvent(this.p2.id, new Date().getTime(), ""));
+
+  this.end = function()
+  {
+    p2Controller.end();
+    p1Controller.end();
+  };
 };
 
 var FightEvent = function(player, timestamp, input)

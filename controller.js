@@ -5,4 +5,9 @@ var Controller = function()
   {
     this.person = person;
   };
+
+  this.end = function()
+  {
+
+  };
 };

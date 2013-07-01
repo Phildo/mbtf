@@ -1,5 +1,6 @@
-var Player = function(id, position, fight)
+var Player = function(user, id, position, fight)
 {
+  this.user = user;
   this.id = id;
   this.x = position;
   this.fight = fight;
@@ -139,15 +140,15 @@ var DisplayBox = function()
     {
       canv.context.fillStyle = validColor;
       for(var i = 0; i < this.displayString.length; i++)
-        canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/10*pos-(25*(this.displayString.length-1)/2)+(25*i), 140);
+        canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/6*pos-(25*(this.displayString.length-1)/2)+(25*i), 140);
     }
     else
     {
       canv.context.fillStyle = enteredColor;
       for(var i = 0; i < this.displayString.length; i++)
-        canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/10*pos-(25*this.displayString.length/2)+(25*i), 140);
+        canv.context.fillText(this.displayString.charAt(i), canv.canvas.width/6*pos-(25*this.displayString.length/2)+(25*i), 140);
       canv.context.fillStyle = promptColor;
-      canv.context.fillText(this.nextString,                canv.canvas.width/10*pos-(25*this.displayString.length/2)+(25*this.displayString.length), 140);
+      canv.context.fillText(this.nextString,                canv.canvas.width/6*pos-(25*this.displayString.length/2)+(25*this.displayString.length), 140);
     }
   };
 };

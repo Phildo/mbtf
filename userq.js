@@ -1,6 +1,8 @@
-var UserQ = function(s)
+var UserQ = function(delegate, s)
 {
-  var ME = new User(-1,"");
+  var self = this;
+  var me = new User(-2,"ME");
+  this.users = [];
   var cells = [];
 
   var register = function(name)
@@ -9,7 +11,8 @@ var UserQ = function(s)
   };
   var registrationSuccessful = function(data)
   {
-    ME = new User(data.id, data.name);
+    me = new User(data.id, data.name);
+    delegate.selfWasRegistered(me);
     view.removeChild(regSelector);
     s.emit('requestQueue');
   };
@@ -24,8 +27,16 @@ var UserQ = function(s)
   var setQueue = function(queue)
   {
     clear();
+    this.users = [];
     for(var i = 0; i < queue.length; i++)
-      if(queue[i]) enqueue(new User(queue[i].id, queue[i].name));
+    {
+      if(queue[i])
+      {
+        this.users.push(new User(queue[i].id, queue[i].name));
+        enqueue(this.users[this.users.length-1]);
+      }
+    }
+    delegate.newQueue(this.users);
   };
 
   var enqueue = function(user)
@@ -38,7 +49,7 @@ var UserQ = function(s)
   {
     var c = document.createElement('div');
     c.data = data;
-    if(c.data.id == ME.id)
+    if(c.data.id == me.id)
       c.innerHTML = data.display+" <-YOU";
     else
       c.innerHTML = data.display;
