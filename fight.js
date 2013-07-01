@@ -1,4 +1,4 @@
-var Fight = function(delegate, user1, user2, me)
+var Fight = function(delegate, s, user1, user2, me)
 {
   var self = this;
   this.fstates = [];
@@ -10,10 +10,13 @@ var Fight = function(delegate, user1, user2, me)
   
   var p1Controller;
   var p2Controller;
-  if(me.id == user1.id) p1Controller = new KeyController(this, this.p1);
-  else                  p1Controller = new Controller(this, this.p1);
-  if(me.id == user2.id) p2Controller = new KeyController(this, this.p2);
-  else                  p2Controller = new Controller(this, this.p2);
+
+  if(me.id == user1.id)  p1Controller = new KeyController(this, s, this.p1);
+  else if(user1.id >= 0) p1Controller = new NetController(this, s, this.p1);
+  else                   p1Controller = new Controller(this, this.p1);
+  if(me.id == user2.id)  p2Controller = new KeyController(this, s, this.p2);
+  else if(user2.id >= 0) p2Controller = new NetController(this, s, this.p2);
+  else                   p2Controller = new Controller(this, this.p2);
   
   this.drawIfShould = function(canv)
   {

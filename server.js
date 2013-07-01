@@ -23,6 +23,13 @@ var connection = function(s)
   };
   s.on('requestQueue',requestQueue);
 
+  var emitEvent = function(data)
+  {
+    console.log('emitting '+data);
+    s.broadcast.emit('event',data);
+  };
+  s.on('emitEvent',emitEvent);
+
   var disconnect = function(data) 
   { 
     for(var i = 0; s.mbtfObject && i < userStubs.length; i++)
