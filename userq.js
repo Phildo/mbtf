@@ -9,7 +9,6 @@ var UserQ = function(s)
   };
   var registrationSuccessful = function(data)
   {
-    console.log('rgistrationSuccess!');
     ME = new User(data.id, data.name);
     view.removeChild(regSelector);
     s.emit('requestQueue');
@@ -17,17 +16,16 @@ var UserQ = function(s)
 
   var clear = function()
   {
-    cells = [];
     for(var i = 0; i < cells.length; i++)
       view.removeChild(cells[i]);
+    cells = [];
   };
 
   var setQueue = function(queue)
   {
-    console.log('setQueue!');
     clear();
     for(var i = 0; i < queue.length; i++)
-      enqueue(new User(queue[i].id, queue[i].name));
+      if(queue[i]) enqueue(new User(queue[i].id, queue[i].name));
   };
 
   var enqueue = function(user)
@@ -36,16 +34,15 @@ var UserQ = function(s)
     view.appendChild(cells[cells.length-1]);
   };
 
-  this.remove = function(id)
-  {
-
-  };
-
   var createCell = function(data)
   {
     var c = document.createElement('div');
     c.data = data;
-    c.innerHTML = cellObj.display;
+    if(c.data.id == ME.id)
+      c.innerHTML = "YOU -> "+data.display;
+    else
+      c.innerHTML = data.display;
+    return c;
   };
   
   var view = document.createElement('div');
@@ -61,7 +58,7 @@ var UserQ = function(s)
   view.appendChild(regSelector);
   var cells = [];
   s.on('nameAccepted', registrationSuccessful);
-  s.on('newUser',      registrationSuccessful);
+  s.on('newUser',      function(d) { s.emit('requestQueue') });
   s.on('queueSync',    setQueue);
   
   document.getElementById('queue_container').appendChild(view);
