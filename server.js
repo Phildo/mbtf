@@ -25,7 +25,6 @@ var connection = function(s)
 
   var emitEvent = function(data)
   {
-    console.log('emitting '+data);
     s.broadcast.emit('event',data);
   };
   s.on('emitEvent',emitEvent);

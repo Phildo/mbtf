@@ -37,11 +37,12 @@ function doit()
 };
 
 window.addEventListener('load',doit,false);
+window.addEventListener('keydown',function(e){if(e.keyCode == 8)e.preventDefault();});
 </script>
 </head>
 <body style="height:100%; overflow:hidden;" oncontextmenu="return false"> <!-- Stops scrolling -->
-<div id='queue_container'></div>
-<div id='stage_container' style="display:block; margin:50px auto 20px auto; height:320px; width:640px;"><img id="shadow" src="assets/shadow.png"></img></div>
+<div id='queue_container' style="position:absolute; top:10px; left:10px;"></div>
+<div id='stage_container' style="margin:50px auto 20px auto; height:320px; width:640px;"><img id="shadow" src="assets/shadow.png"></img></div>
 <div id='debug'></div>
 </body>
 </html>

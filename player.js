@@ -113,9 +113,17 @@ var Player = function(user, id, position, fight)
     "z":[null]
   };
 
+  var fileString = "";
+  var img = new Image();
+  img.src = "assets/default.png";
   this.draw = function(canv)
   {
     displayBox.draw(canv, this.x, this.color, this.fadedColor, this.darkColor);
+    fileString = this.seed+inputs[this.seed].substring(0,this.progress);
+    fileString = fileString.replace(/ /g,"_");
+    fileString = fileString.replace(/!/g,"I");
+    if(fileString == "" || fileString == "_") fileString = "default";
+    canv.context.drawImage(img, canv.canvas.width/6*this.x-64, canv.canvas.height-158, 128, 128);
   };
 };
 
