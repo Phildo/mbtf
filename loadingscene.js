@@ -1,3 +1,4 @@
+var images = {}; //yep. global. deal with it.
 var LoadingScene = function(game, canv)
 {
   var tickr;

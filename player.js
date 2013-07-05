@@ -45,6 +45,21 @@ var Player = function(user, id, position, fight)
     }
     if(actions[this.seed][this.progress]) actions[this.seed][this.progress](this);
     displayBox.display(this.seed+inputs[this.seed].substring(0,this.progress),inputs[this.seed].substring(this.progress,this.progress+1));
+
+    fileString = this.seed+inputs[this.seed].substring(0,this.progress);
+    fileString = fileString.replace(/ /g,"_");
+    fileString = fileString.replace(/!/g,"I");
+    if(fileString == "" || fileString == "_") fileString = "default";
+    console.log('"'+fileString+'"');
+    if(fileString == "p"     || 
+       fileString == "pu"    ||
+       fileString == "pun"   ||
+       fileString == "punc"  ||
+       fileString == "punch" ||
+       fileString == "punch_")
+      img.src =  'assets/'+fileString+'.png';
+    else
+      img.src =  'assets/default.png';
   };
 
   var inputs = 
@@ -119,11 +134,7 @@ var Player = function(user, id, position, fight)
   this.draw = function(canv)
   {
     displayBox.draw(canv, this.x, this.color, this.fadedColor, this.darkColor);
-    fileString = this.seed+inputs[this.seed].substring(0,this.progress);
-    fileString = fileString.replace(/ /g,"_");
-    fileString = fileString.replace(/!/g,"I");
-    if(fileString == "" || fileString == "_") fileString = "default";
-    canv.context.drawImage(img, canv.canvas.width/6*this.x-64, canv.canvas.height-158, 128, 128);
+    canv.context.drawImage(img, canv.canvas.width/6*this.x-64, canv.canvas.height-158, 128+64, 128);
   };
 };
 
