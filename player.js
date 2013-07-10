@@ -29,8 +29,8 @@ var Player = function(user, id, position, fight)
   
   this.damage = function(amount)
   {
-    if(this.blocking) Math.floor(amount/=2);
-    this.health -= amount;
+    if(!this.blocking) 
+      this.health -= amount;
   };
 
   this.input = function(key)
@@ -43,6 +43,7 @@ var Player = function(user, id, position, fight)
       this.seed = key;
       this.progress = 0;
     }
+    this.blocking = false;
     if(actions[this.seed][this.progress]) actions[this.seed][this.progress](this);
     displayBox.display(this.seed+inputs[this.seed].substring(0,this.progress),inputs[this.seed].substring(this.progress,this.progress+1));
 
@@ -101,7 +102,7 @@ var Player = function(user, id, position, fight)
     " ":[null],
     "!":[null],
     "a":[null],
-    "b":[null,null,null,null,null],
+    "b":[null,null,null,null,null,function(p) { p.blocking = true; }],
     "c":[null,null,null,null,null,null],//"crouch"
     "d":[null,null,null,null],//"dance"
     "e":[null],
@@ -134,7 +135,13 @@ var Player = function(user, id, position, fight)
   this.draw = function(canv)
   {
     displayBox.draw(canv, this.x, this.color, this.fadedColor, this.darkColor);
-    canv.context.drawImage(img, canv.canvas.width/6*this.x-64, canv.canvas.height-158, 128+64, 128);
+    if(this.id == "1") canv.context.drawImage(img, canv.canvas.width/6*this.x-64, canv.canvas.height-158, 128+64, 128);
+    if(this.id == "2")
+    {
+      canv.context.scale(-1,1);
+      canv.context.drawImage(img, canv.canvas.width/6*(0-this.x)-64, canv.canvas.height-158, 128+64, 128);
+      canv.context.scale(-1,1);
+    }
   };
 };
 
